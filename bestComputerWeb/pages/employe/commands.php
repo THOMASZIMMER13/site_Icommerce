@@ -1,8 +1,11 @@
 <?php
-include ("validateAuth.php");
-require('../../bd/config.php');
+$title = "Listing des Commandes.";
+include_once("../head.php");
+include_once("validateAuth.php");
+// require('../../bd/config.php');
 
-function showStatus($status) {
+function showStatus($status)
+{
   switch ($status) {
     case 'validated':
       echo 'Validée';
@@ -21,45 +24,39 @@ $res = mysqli_query($conn, $query);
 
 // Vérifie si la requête a échoué
 if ($res === false) {
-    die("Erreur");
+  die("Erreur");
 }
 
 ?>
-
-<?php 
-$title = "Listing des Commandes.";
-include("../head.php"); 
-?>
 <div class="container">
-<div class="row">
-
-<h2>Liste des Commandes</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Numéro</th> 
-      <th>Date</th> 
-      <th>Client</th>
-      <th>Statut</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php while($row = mysqli_fetch_assoc($res)) : ?>
-    <tr>
-      <td><?php echo htmlspecialchars($row['id']); ?></td>
-      <td><?php echo htmlspecialchars($row['date']); ?></td>
-      <td><?php echo htmlspecialchars($row['firstname']) ." " . htmlspecialchars($row['lastname']); ?></td>
-      <td><?php echo showStatus($row['status']); ?></td>
-      <td> 
-          <?php echo "<a href='../command-detail.php?id=".$row["id"]."'>Modifier</a>"; ?>
-        </td>
-
-        </td>
-    </tr>
-    <?php endwhile; ?>
-  </tbody>
-</table>
+  <div class="p-4 p-md-4 mb-2">
+    <h2><i class="bi bi-card-checklist" style="font-size: 3rem;"></i>Liste des commandes</h2>
+  </div>
+  <div style="padding-bottom:3em">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Numéro</th>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php while ($row = mysqli_fetch_assoc($res)) : ?>
+          <tr>
+            <td><?php echo htmlspecialchars($row['id']); ?></td>
+            <td><?php echo htmlspecialchars($row['date']); ?></td>
+            <td><?php echo htmlspecialchars($row['firstname']) . " " . htmlspecialchars($row['lastname']); ?></td>
+            <td><?php echo showStatus($row['status']); ?></td>
+            <td>
+              <?php echo "<a href='../command-detail.php?id=" . $row["id"] . "'>Modifier</a>"; ?>
+            </td>
+          </tr>
+        <?php endwhile; ?>
+      </tbody>
+    </table>
+  </div>
 </div>
-</div>
-<?php include("../footer.php"); ?>
+<?php include_once("../footer.php"); ?>

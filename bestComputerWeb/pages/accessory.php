@@ -1,49 +1,53 @@
 <?php
-session_start();
-require('../bd/config.php');
+$title = "Accessoires";
+include_once("head.php");
+
 $res = null;
 $erreur = '';
 $clause = '';
+
 if (isset($_REQUEST["txt"])) {
-  $clause = "WHERE title LIKE '%".$_REQUEST["txt"]."%'";
+  $clause = "WHERE title LIKE '%" . $_REQUEST["txt"] . "%'";
 }
 
-$query = "SELECT * FROM product $clause where productType='accessory'";
+$query = "SELECT id, productType, inventory, model, brand, title, description, price, serialnumber, releaseDate, img FROM product $clause where productType='accessory'";
 
 // Exécute la requête sur la base de données
 $res = mysqli_query($conn, $query);
 
 // Vérifie si la requête a échoué
 if ($res === false) {
-    $erreur = 'erreur au moment de la recherche';
+  $erreur = 'erreur au moment de la recherche';
 }
-
-?>
-
-<?php 
-  $title = "Accessoires";
-  include ("head.php"); 
-?>
-<?php echo $erreur; ?>
+echo $erreur; ?>
 
 <div class="container">
-  <div class="row">
-  <h2>Liste des accessoires</h2>
-     </p>
-    <?php while($row = mysqli_fetch_assoc($res)) : ?>
-      <div class="row p-3">
-        <div class="card-body">
-          <h5 class="card-title"> <?php echo $row["title"]; ?> </h5>
-          <p class="card-text">Modèle: <?php echo $row["model"]; ?> </p>
-          <p class="card-text">Marque: <?php echo $row["brand"]; ?> </p>
-          <p class="card-text">Pièce actuellement disponible: <?php echo $row["inventory"]; ?> </p>
-          <p class="card-text">Prix: <?php echo $row["price"] . " €"; ?> </p>
-          <a href="product-detail.php?id=<?php echo $row["id"]; ?>" class="card-link"> Détail </a>
-          <a href="basket.php?id=<?php echo $row["id"]; ?>" > Ajouter Au Panier</a>
+  <div class="p-4 p-md-4 mb-2">
+    <h2>Liste des accessoires</h2>
+    <p><?php echo (!empty($res) && ($res->num_rows > 0))  ? $res->num_rows . " produits " : 0 . " produit "; ?></p>
+  </div>
+  <div class="row row-cols-1 row-cols-md-4 g-4" style="padding-bottom: 3em">
+    <?php while ($row = mysqli_fetch_assoc($res)) : ?>
+      <div class="col">
+        <div class="card">
+        <img src="../<?php echo $row["img"]; ?>" class="card-img-top img-fluid" style="max-height:150px;max-width:200px;margin:auto;" alt="...">
+          <div class="card-body" style="margin:auto;">
+            <div class="card-body">
+              <h5 class="card-title"> <?php echo $row["title"]; ?> </h5>
+              <ul>
+                <li>Modèle: <?php echo $row["model"]; ?></li>
+                <li>Marque: <?php echo $row["brand"]; ?></li>
+                <li>Pièce actuellement disponible: <?php echo $row["inventory"]; ?></li>
+                <li>Prix: <?php echo $row["price"] . " €"; ?></li>
+              </ul>
+              <a class="btn btn-sm btn-outline-dark" role="button" href="product-detail.php?id=<?php echo $row["id"]; ?>" class="card-link"> Détail </a>
+              <a class="btn btn-sm btn-primary" role="button" href="basket.php?id=<?php echo $row["id"]; ?>"> Ajouter au panier</a>
+            </div>
+          </div>
         </div>
       </div>
     <?php endwhile; ?>
   </div>
 </div>
 
-<?php include ("footer.php"); ?>
+<?php include("footer.php"); ?>

@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
   }
 } else {
   if (isset($_REQUEST["id"])) {
-    $query = "SELECT * FROM contact WHERE id = ".$_REQUEST["id"];
+    $query = "SELECT id, firstname, lastname, email, message, comment, subject, status FROM contact WHERE id = ".$_REQUEST["id"];
     $res = mysqli_query($conn, $query);
     $data = mysqli_fetch_assoc($res);
     if ($data) {

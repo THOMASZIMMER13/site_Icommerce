@@ -1,10 +1,10 @@
 <?php
-require('../bd/config.php');
-
+$title = "Liste des commandes";
+include_once("head.php");
 
 //récupérer l'id de l'utilisateur actuellement connecté
  if($_SESSION['email'] ){
-  $query = "SELECT * FROM user WHERE email = '".$_SESSION["email"]."' limit 1";
+  $query = "SELECT id, email FROM user WHERE email = '".$_SESSION["email"]."' limit 1";
   $res = mysqli_query($conn, $query);
   $user = mysqli_fetch_assoc($res);
   $id = $user["id"];
@@ -49,13 +49,7 @@ $res = mysqli_query($conn, $query);
 // Vérifie si la requête a échoué
 if ($res === false) {
     die("Erreur");
-}
-
-?>
-
-<?php 
-$title = "Listing des Commandes.";
-include("head.php"); 
+} 
 ?>
 <div class="container">
 <div class="row">
@@ -90,4 +84,4 @@ include("head.php");
 </table>
 </div>
 </div>
-<?php include("footer.php"); ?>
+<?php include_once("footer.php"); ?>

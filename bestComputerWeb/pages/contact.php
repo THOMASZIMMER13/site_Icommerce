@@ -1,34 +1,33 @@
 <?php
+$title = "Nous contacter ";
+include_once("head.php");
+
 //connexion à la base de donnée 
-require('..\bd\config.php');
+// require('..\bd\config.php');
 $erreur = '';
 
 // Traitement du formulaire
-if (isset($_POST['submit'])) {
-  // récupérer le nom
-	$lastname = stripslashes($_REQUEST['lastname']);
-	$lastname = mysqli_real_escape_string($conn, $lastname); 
-
-  // récupérer le prénom
-	$firstname = stripslashes($_REQUEST['firstname']);
-	$firstname = mysqli_real_escape_string($conn, $firstname); 
-
-	// récupérer le mail
-	$email = stripslashes($_REQUEST['email']);
-	$email = mysqli_real_escape_string($conn, $email); 
-  
-  $subject = stripslashes($_REQUEST['subject']);
-	$subject = mysqli_real_escape_string($conn, $subject); 
-  
-  $message = stripslashes($_REQUEST['message']);
-	$message = mysqli_real_escape_string($conn, $message); 
+if (isset($_POST['Envoyer'])) {
+  /**
+   * Récupération des données
+   * LASTNAME
+   * FIRSTNAME
+   * EMAIL
+   * SUBJECT
+   * MESSAGE
+   */
+  $lastname = mysqli_real_escape_string($conn, $_REQUEST['lastname']);
+  $firstname = mysqli_real_escape_string($conn, $_REQUEST['firstname']);
+  $email = mysqli_real_escape_string($conn, $_REQUEST['email']);
+  $subject = mysqli_real_escape_string($conn, $_REQUEST['subject']);
+  $message = mysqli_real_escape_string($conn, $_REQUEST['message']);
 
   // Préparation et exécution de la requête d'insertion
   $query = "INSERT into contact (firstname, lastname, email, subject, message, status) VALUES ('$firstname', '$lastname', '$email', '$subject', '$message', 'to_treat');";
   // Exécute la requête sur la base de données
   try {
     $res = mysqli_query($conn, $query);
-    if($res) {
+    if ($res) {
       header('Location: validation.php?case=contact');
     }
   } catch (Exception $err) {
@@ -38,68 +37,83 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<?php 
-$title="Nous contacter ";
-  include ("head.php"); 
-?>
-
 <div class="container">
-<div class="row">
-<h1> <?php echo $title; ?> </h1>
-<p>
-Vous souhaitez obtenir des informations sur un produit en particulier, sur une compatibilité de matériel ? Vous avez une commande en cours et voulez la modifier ? Une demande de retour à effectuer ?
-Vous pouvez nous contacter par mail ou par téléphone, pensez également à consulter notre Foire Aux Questions, vous y trouverez des réponses à vos interrogations !
-</p>
-<a href="FAQ.php"> cliquez-ici pour accèder à notre foire aux questions </a>
-<h2> Via le formulaire </h2>
-
-<form method="post">
-  <p><?php echo $erreur; ?></p>
-  <div class="form-group">
-  <label for="firstname">Prénom :</label>
-  <input type="text" id="firstname" name="firstname" required>
+  <div class="p-4 p-md-4 mb-2">
+    <h1><?php echo $title; ?></h1>
+    <div class="alert alert-primary" role="alert">
+      <i class="bi bi-info-circle"></i>
+      Vous souhaitez obtenir des informations sur un produit en particulier, sur une compatibilité de matériel ?
+      Vous avez une commande en cours et voulez la modifier ? Une demande de retour à effectuer ?
+      Vous pouvez nous contacter par mail ou par téléphone, pensez également à consulter notre <a href="FAQ.php">Foire Aux Questions</a>, vous y trouverez des réponses à vos interrogations !
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-2" style="padding-bottom: 2em">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title"> Via le formulaire </h2>
+            <form action="" method="post" class="grid">
+              <p><?php echo $erreur; ?></p>
+              <div class="mb-4 row">
+                <label for="lastname" class="col-sm-4 col-form-label">Nom *:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="lastname" name="lastname" required>
+                </div>
+              </div>
+              <div class="mb-4 row">
+                <label for="firstname" class="col-sm-4 col-form-label">Prénom *:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="firstname" name="firstname" required>
+                </div>
+              </div>
+              <div class="mb-4 row">
+                <label for="email" class="col-sm-4 col-form-label">Email *:</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+              </div>
+              <div class="mb-4 row">
+                <label for="subject" class="col-sm-4 col-form-label">Sujet *:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="subject" name="subject" required>
+                </div>
+              </div>
+              <div class="mb-4 row">
+                <label for="subject" class="col-sm-4 col-form-label">Message *:</label>
+                <div class="col-sm-8">
+                  <textarea id="message" class="form-control" name="message" rows="5"></textarea>
+                </div>
+              </div>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                <input class="btn btn-sm btn-outline-danger" type="reset" name="Effacer" placeholder="effacer" />
+                <input class="btn btn-sm btn-success" type="submit" name="Envoyer" placeholder="Envoyer" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title"> Nous sommes également joignable</h2>
+            <div>
+              <h3>Par E-mail</h3>
+              <p> Lors de l'envoi de votre mail à nos experts pensez à joindre votre n° de commande dans l'objet </p>
+              <a href="mailto:email@example.com" class="btn btn-primary">Envoyer un email</a>
+            </div>
+            <hr />
+            <div>
+              <h3>Par téléphone</h3>
+              <p class="text-wrap">
+                Nos conseillers sont à votre disposition du lundi au vendredi de 9h à 18h.<br/>
+                Lors de votre appel au standard, pensez à vous munir de votre numéro de commande.
+              </p>
+              <a class="btn btn-primary" href="tel:+33472010203">Appeler le 04 72 01 02 03</a> <small>(numéro non surtaxé)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-  <div class="form-group">
-  <label for="lastname">Nom :</label>
-  <input type="text" name="lastname" id="lastname" required><br>
-</div>
-<div class="form-group">
-  <label for="email">Adresse email :</label>
-  <input type="email" id="email" name="email" required><br>
-</div>
-<div class="form-group">
-  <label for="subject">Sujet :</label>
-  <input type="text" name="subject" id="subject" required><br>
-</div>
-<div class="form-group">
-  <label for="message">Message :</label>
-  <textarea id="message" name="message" rows="5"></textarea><br>
-</div>
-  <input type="submit" name="submit" value="Envoyer">
-  <input type="reset" name="reset" value="Effacer">
-</form>
-<br>
-
-<h2> Nous sommes également joignable Par E-mail ou par téléphone </h2>
-
-<p> Lors de l'envoi de votre mail à nos Expères pensez à joindre votre n° de commande dans l'objet </p>
-
-<a href="mailto:email@example.com">Envoyer Email</a>
-
-<br>
-                            <a class="o-link--reset" href="tel:+33472010203">
-                                04 72 01 02 03
-                            </a>
-                        <small>(numéro non surtaxé)</small>
-<p>
-lors de votre appel au standard
-pensez à vous munir de votre numéro de commande
-</p> 
-<p>
-Nos conseillers sont à votre disposition du lundi au vendredi de 9h à 18h. 
-</p>
-</div>
-</div>
-
-<?php include ("footer.php"); ?>
+<?php include("footer.php"); ?>

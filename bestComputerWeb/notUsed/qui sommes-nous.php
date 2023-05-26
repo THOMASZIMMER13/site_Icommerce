@@ -1,6 +1,7 @@
-<php 
-$title="Qui sommes nous? "; 
-  include ("head.php"); ?>
+<php  
+  $title="Qui sommes nous? ";
+  include_once("head.php");
+?>
 
     <h1> Présentation</h1>
 <p> Best Computer est une jeune start-up lyonnaise fondée en 2020 par Thomas.
@@ -14,4 +15,4 @@ Bonne navigation !
 
 </p>
 
-<?php include ("footer.php"); ?>
+<?php include_once("footer.php"); ?>

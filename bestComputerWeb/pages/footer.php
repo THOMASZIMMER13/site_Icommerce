@@ -1,18 +1,24 @@
-<?php
-  
-  require(dirname(__FILE__).'/config.php');
-?>
-<footer>
-      <div class="container">
-        <div class="row" id="a_propos">
-          <ul>
-            <li><a href="<?php echo $BASE_URL; ?>Qui sommes-nous.php"> Qui sommes-nous ? </a></li>
-            <li><a href="<?php echo $BASE_URL; ?>contact.php"> Nous contacter !</a></li>
-             <li><a href="<?php echo $BASE_URL; ?>FAQ.php"> Trouver les réponses à vos questions</a></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
-
-  </body>
+</main>
+<footer class="footer fixed-bottom navbar-dark bg-dark">
+  <div class="container container-fluid">
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link active" style="color:#ffffff" aria-current="page" href="">© Thomas ZIMMER - 2023</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color:#ffffff" href="faq.php">FAQ</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color:#ffffff" href="contact.php">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color:#ffffff" href="mentions-legales.php">Mentions légales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color:#ffffff" href="cgu-cgv.php">CGU / CGV</a>
+      </li>
+    </ul>
+  </div>
+</footer>
+</body>
 </html>

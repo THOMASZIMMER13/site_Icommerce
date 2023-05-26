@@ -1,6 +1,7 @@
 <?php
+$title="Mon panier";
 // connection à la base de donné 
-include("..\bd\Connect_Database.php");
+include_once("..\bd\Connect_Database.php");
 
 
 
@@ -85,7 +86,7 @@ function decomptePanier($product)
 
     $db = database();
 
-    $request = $db->query('SELECT * FROM produits WHERE product_id='.$product.'');
+    $request = $db->query('SELECT id, inventory, brand, title, model, price, productType  FROM produits WHERE product_id='.$product.'');
 
       return $request;
 
@@ -94,7 +95,7 @@ function decomptePanier($product)
 function displayArticleInPanier($prod_id)
 {
   $bdd = database();
-  $requestArticle = $bdd->prepare('SELECT * FROM produits WHERE product_id= :id');
+  $requestArticle = $bdd->prepare('SELECT id, inventory, brand, title, model, price, productType FROM produits WHERE product_id= :id');
   $requestArticle->execute(array(
     'id' => $prod_id
   ));

@@ -1,10 +1,11 @@
 <?php
 //sette page vérifie qu'il s'agit bien d'un employé
 //connection à la base de donné
-	include ("../../bd/config.php"); 
+	include_once("../../bd/config.php"); 
   $user = null;
-  session_start();
- 
+  if(empty($_SESSION) || !$_SESSION) {
+    session_start();
+  }
  
  if($_SESSION['email'] && $_SESSION["role"] != "client"){
   $query = "SELECT * FROM user WHERE email = '".$_SESSION["email"]."' limit 1";
