@@ -2,12 +2,7 @@
 $title = "Tableau de bord";
 include_once("head.php");
 
-//	include ("customer/validateAuth.php"); 
-//<-- connection à la base de donné -->
-// include ("..\bd\config.php"); 
 $user = null;
-// session_start();
-
 
 if ($_SESSION['email']) {
   $query = "SELECT id, role, male, lastname, firstname, email, pass FROM user WHERE email = '" . $_SESSION["email"] . "' and role='client' limit 1";
@@ -57,7 +52,7 @@ if ($_SESSION['email']) {
         <div class="card-body">
           <i class="bi bi-x-circle-fill" style="font-size: 3rem;"></i>
           <h5 class="card-title">Supprimer mon compte</h5>
-          <a href="customer/deleteCession.php" class="btn btn-primary">Accéder</a>
+          <a href="customer/deleteCession.php" class="btn btn-primary">Exécuter</a>
         </div>
       </div>
     </div>

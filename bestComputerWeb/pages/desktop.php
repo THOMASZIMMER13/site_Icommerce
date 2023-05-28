@@ -2,8 +2,6 @@
 $title = "Ordinateurs de bureau";
 include_once("head.php");
 
-// session_start();
-// require('../bd/config.php');
 $res = null;
 $erreur = '';
 $clause = '';

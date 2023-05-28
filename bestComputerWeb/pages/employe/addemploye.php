@@ -1,15 +1,14 @@
 <?php
-$title = "Inscription";
+$title = "Inscription d'un nouveau colaborateur";
 include_once("../head.php");
 include_once("validateAuth.php");
-// require('../../bd/config.php');
 
 $erreur = "";
 $valid = true;
 
 if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST['lastname'], $_REQUEST['firstname'])) {
   /**
-   * Récupération des datas
+   * Récupération des données
    * LASTNAME
    * FIRSTNAME
    * EMAIL
@@ -20,25 +19,30 @@ if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST[
   $lastname = mysqli_real_escape_string($conn, stripslashes($_REQUEST['lastname']));
   $firstname = mysqli_real_escape_string($conn, stripslashes($_REQUEST['firstname']));
   $email = mysqli_real_escape_string($conn, stripslashes($_REQUEST['email']));
-  $pass = mysqli_real_escape_string($conn, $stripslashes($_REQUEST['pass']));
+  $pass = mysqli_real_escape_string($conn, stripslashes($_REQUEST['pass']));
   $repass = mysqli_real_escape_string($conn, stripslashes($_REQUEST['repass']));
   $male = ($_REQUEST['genra'] == 'male') ? 1 : 0;
+
+  /**
+   * HASH PASSWORD & CONFIRMATION PASSWORD
+   */
+  $pass = hash('sha256', $pass);
+  $repass = hash('sha256', $repass);
 
   // Vérification du mail
   if (!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $email)) {
     $valid = false;
     $erreur = $erreur . "<p>Le format du mail est incorrect</p>";
   }
-
-  // Vérification si le mail est déjà dans la base.
+  //vérification si le mail est déjà dans la base.
   $checkMail = mysqli_query($conn, "SELECT email FROM user WHERE email = '" . $email . "' limit 1");
   $existingMail = mysqli_fetch_assoc($checkMail);
   if ($existingMail) {
     $valid = false;
     $erreur = $erreur . "<p>" . $email . " est déjà utilisée</p>";
   }
-
-  // Vérifier que le mot de passe et la confirmation son identique
+  
+  //vérifier que le mot de passe et la confirmation son identique
   if ($pass != $repass) {
     $valid = false;
     $erreur = $erreur . "<p>Les mots de passe saisis ne correspondent pas</p>";
@@ -46,9 +50,10 @@ if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST[
 
   if ($valid) {
     //requéte SQL + mot de passe crypté
-    /*$query = "INSERT into 'user' (firstname, lastname, email, role, male, pass) VALUES ('$firstname', '$lastname', '$email', 'client', '$male','".hash('sha256', $pass)."')";*/
-    $query = "INSERT into user (firstname, lastname, email, role, male, pass)
-              VALUES ('$firstname', '$lastname', '$email', 'employe', true, '$pass');";
+    $query = "INSERT into user (firstname, lastname, email, role, male, pass)              
+              VALUES ('$firstname', '$lastname', '$email', 'employe', '$male', '$pass');";
+    var_dump($query);
+    
     // Exécute la requête sur la base de données
     try {
       $res = mysqli_query($conn, $query);
@@ -56,15 +61,21 @@ if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST[
         header('Location: ../validation.php?case=register');
       }
     } catch (Exception $err) {
+      var_dump($err);
       $erreur = "Une erreur s'est produite veuillez revenir plus tard sur cette page";
     }
   }
-} ?>
+}
+?>
 <div class="container">
   <div class="row">
     <div class="col-2"></div>
     <div class="col-8" style="padding-top: 2em">
-      <h1 class="box-title">Création d'un nouvel employé</h1>
+      <h1 class="box-title">Inscription</h1>
+      <div class="alert alert-primary" role="alert">
+        <i class="bi bi-info-circle"></i>
+        <span>Déjà inscrit ? <a href="connection.php">Se connecter !</a></span>
+      </div>
       <?php if (!empty($erreur)) { ?>
         <div class="alert alert-danger" role="alert">
           <i class="bi bi-exclamation-circle-fill" style="margin-right:10px"></i>
@@ -73,7 +84,7 @@ if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST[
       <?php } ?>
       <form class="box" action="" method="post" class="grid">
         <div class="mb-4 row">
-          <label for="genra" class="col-sm-4 col-form-label">Genre :</label>
+          <label for="genra" class="col-sm-4 col-form-label">Vous êtes :</label>
           <div class="col-sm-8">
             <div class="row">
               <div class="col-sm-3">
@@ -125,4 +136,4 @@ if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST[
     <div class="col-2"></div>
   </div>
 </div>
-<?php include_once("../footer.php"); ?>
+<?php include_once("footer.php"); ?>

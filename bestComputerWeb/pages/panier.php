@@ -1,9 +1,8 @@
 <?php
 $title="Mon panier";
+
 // connection à la base de donné 
 include_once("..\bd\Connect_Database.php");
-
-
 
 function articlePanier()
 {
@@ -17,10 +16,7 @@ function articlePanier()
   }
 }
 
-
-
 // function pour diminuer la quantité d'un produit
-
 function removeArticle()
 {
   if(isset($_GET['remove']))

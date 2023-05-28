@@ -15,15 +15,6 @@ include_once("head.php");
    header("Location: error.php");
  }
 
-
-// Vérifie si l'utilisateur est connecté
-//session_start();
-//if(!isset($_SESSION['user_id'])) {
-//  die("Erreur : Utilisateur non connecté.");
-//}
-
-//$user_id = $_SESSION['user_id'];
-
 function showStatus($status) {
   switch ($status) {
     case 'validated':

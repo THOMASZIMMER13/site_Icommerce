@@ -2,26 +2,17 @@
 $title = "Connexion";
 include_once("head.php");
 
-// require('..\bd\config.php');
-
-// session_start();
 //variables
-@$email = $_POST["email"];
-//@$pass=sha1 ($_POST["password"]);
-@$pass = $_POST["password"];
-@$valider = $_POST["valider"];
 $erreur = "";
 $data = null;
 
-if (isset($valider)) {
+if (isset($_POST["valider"])) {
   // récupérer le mail
-  $email = stripslashes($_REQUEST['email']);
-  $email = mysqli_real_escape_string($conn, $email);
-  // Vérification du mail
+  $email = mysqli_real_escape_string($conn, stripslashes($_REQUEST['email']));
 
   // récupérer le mot de passe et supprimer les antislashes ajoutés par le formulaire
-  $pass = stripslashes($_REQUEST['password']);
-  $pass = mysqli_real_escape_string($conn, $pass);
+  $pass = mysqli_real_escape_string($conn, stripslashes($_REQUEST['password']));
+  $pass = hash('sha256', $pass);
 
   $query = "select id, role, male, lastname, firstname, email, pass from user where email='" . $email . "' and pass='" . $pass . "' limit 1";
 

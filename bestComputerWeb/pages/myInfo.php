@@ -2,8 +2,6 @@
 $title = "Mes informations";
 include_once("head.php");
 
-//  session_start();
-// require('../bd/config.php');
 $result = '';
 $lastname = "";
 $firstname = "";

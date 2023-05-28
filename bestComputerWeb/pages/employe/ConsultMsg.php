@@ -2,7 +2,8 @@
 $title = "Message reçu via le formulaire";
 include_once("../head.php");
 include_once("validateAuth.php");
-// require('../../bd/config.php');
+
+
 //récupère tous les msg
 $query = "SELECT id, email, lastname, firstname, subject, status FROM contact ORDER BY status";
 
@@ -18,13 +19,13 @@ function showStatus($status)
 {
   switch ($status) {
     case 'to_treat':
-      echo 'A traiter';
+      echo 'À traiter';
       break;
     case 'treated':
       echo 'Archivé';
       break;
     default:
-      echo '';
+      echo '-';
   }
 }
 ?>

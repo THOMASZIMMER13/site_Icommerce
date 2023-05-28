@@ -1,8 +1,7 @@
 <?php
 $title = $product['title'];
 include_once("head.php");
-// session_start();
-// require('../bd/config.php');
+
 if (!isset($_REQUEST["id"])) {
   header("Location: error.php");
 }

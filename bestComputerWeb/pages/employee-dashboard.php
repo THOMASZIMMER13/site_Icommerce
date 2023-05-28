@@ -1,11 +1,8 @@
 <?php
 $title = "Tableau de bord";
 include_once("head.php");
-
-//connection à la base de donné
-// include ("../bd/config.php"); 
 $user = null;
-// session_start();
+
 if ($_SESSION['email'] && $_SESSION["role"] != "client") {
   $query = "SELECT id, role, male, lastname, firstname, email, pass FROM user WHERE email = '" . $_SESSION["email"] . "' limit 1";
   $res = mysqli_query($conn, $query);

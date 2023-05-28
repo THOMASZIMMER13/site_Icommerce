@@ -2,8 +2,6 @@
 $title = "Listing des employés de l'entreprise.";
 include_once("../head.php");
 include_once("validateAuth.php");
-// require_once('../../bd/config.php');
-
 
 //récupère tous les employés de l'entreprise
 $query = "SELECT id, role, male, email, lastname, firstname, pass FROM user where role='employe'";
@@ -14,6 +12,29 @@ $res = mysqli_query($conn, $query);
 // Vérifie si la requête a échoué
 if ($res === false) {
   die("Erreur");
+}
+
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  // Vérifie si le formulaire de suppression a été soumis
+  if (isset($_POST["delete"])) {
+    $id = $_POST["delete"];
+    $deleteQuery = "DELETE FROM user WHERE id='$id'";
+  }
+
+  try {
+    $deleteResult = mysqli_query($conn, $deleteQuery);
+    
+    if ($deleteResult === false) {
+      die("Erreur lors de la suppression de colaborateur");
+    }
+
+    // Redirige vers la page actuelle pour actualiser la liste des produits
+    header("Location: $_SERVER[PHP_SELF]");
+    exit();
+  } catch (Exception $err) {
+    $erreur = $err;
+  }
 }
 ?>
 
@@ -40,7 +61,12 @@ if ($res === false) {
             <td><?php echo htmlspecialchars($row['lastname']); ?></td>
             <td><?php echo htmlspecialchars($row['firstname']); ?></td>
             <td><?php echo htmlspecialchars($row['email']); ?></td>
-            <td> <a href="">Supprimer</a> </td>
+            <td>
+              <form method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce collaborateur ?');">
+                <input type="hidden" name="delete" value="<?php echo $row['id']; ?>">
+                <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+              </form>
+            </td>
             </td>
           </tr>
         <?php endwhile; ?>

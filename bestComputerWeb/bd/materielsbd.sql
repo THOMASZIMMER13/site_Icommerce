@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : ven. 19 mai 2023 à 06:31
--- Version du serveur : 10.4.22-MariaDB
--- Version de PHP : 8.0.13
+-- Host: localhost
+-- Generation Time: May 26, 2023 at 01:00 PM
+-- Server version: 5.7.24
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -17,87 +18,74 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Database: `materielsbd`
+--
 CREATE DATABASE IF NOT EXISTS `materielsbd` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `materielsbd`;
-
---
--- Base de données : `materielsbd`
---
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `address`
+-- Table structure for table `address`
 --
 
-CREATE TABLE `address` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `address`;
+CREATE TABLE IF NOT EXISTS `address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `address` varchar(50) NOT NULL,
   `complement` varchar(30) DEFAULT NULL,
   `cp` int(5) NOT NULL,
   `town` varchar(50) NOT NULL,
   `phone` int(10) DEFAULT NULL,
   `description` varchar(250) DEFAULT NULL,
-  `userId` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `userId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `address`
+-- Table structure for table `command`
 --
 
-INSERT INTO `address` (`id`, `address`, `complement`, `cp`, `town`, `phone`, `description`, `userId`) VALUES
-(5, '36 rue des Mouettes', 'SUD', 34980, 'PALAVAS LES FLOTS', 123456789, 'SOLEIL', 12);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `command`
---
-
-CREATE TABLE `command` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `command`;
+CREATE TABLE IF NOT EXISTS `command` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `status` enum('deleted','old','validated') DEFAULT NULL,
-  `userId` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `command`
---
-
-INSERT INTO `command` (`id`, `date`, `status`, `userId`) VALUES
-(1, '2023-05-08', 'deleted', 12),
-(2, '2023-05-14', 'validated', 12),
-(3, '2023-05-18', 'validated', 12),
-(4, '2023-05-18', 'validated', 12),
-(5, '2023-05-18', 'validated', 12),
-(6, '2023-05-18', 'validated', 12);
+  `userId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contact`
+-- Table structure for table `contact`
 --
 
-CREATE TABLE `contact` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `contact`;
+CREATE TABLE IF NOT EXISTS `contact` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `message` text,
   `comment` text,
   `subject` varchar(255) NOT NULL,
-  `status` enum('to_treat','actif','treated') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `status` enum('to_treat','actif','treated') DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `product`
+-- Table structure for table `product`
 --
 
-CREATE TABLE `product` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE IF NOT EXISTS `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `inventory` int(11) NOT NULL,
   `brand` varchar(50) NOT NULL,
   `model` varchar(50) DEFAULT NULL,
@@ -113,15 +101,16 @@ CREATE TABLE `product` (
   `screenSize` float(11,2) DEFAULT NULL,
   `computFormat` varchar(20) DEFAULT NULL,
   `productType` enum('laptop','desktop','accessory') DEFAULT NULL,
-  `img` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `img` varchar(250) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `product`
+-- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`id`, `inventory`, `brand`, `model`, `title`, `description`, `price`, `serialnumber`, `releaseDate`, `processor`, `ram`, `storage`, `os`, `screenSize`, `computFormat`, `productType`, `img`) VALUES
-(1, 3, 'Dell', 'Latitude 7300', 'Dell Latitude 7300', 'La série de PC Dell Latitude 7300 est parfaitement adapté aux professionnels et particuliers. Un ultrabook associant fiabilité, performances et mobilité.\r\n\r\nComposition haut de gamme, à l’extérieur comme à l’intérieur.\r\n\r\nCommençons par l’intérieur. Le Dell Latitude 7300 possède une configuration intelligente et très bien fournie. Son processeur i5 de 8ème génération est associé à 8 Go de RAM pour de très bonnes performances et un excellent confort d’utilisation. Grâce à cela, vous pouvez utiliser des logiciels de la suite Adobe tels que Photoshop ou InDesign. Vous bénéficiez aussi d’une navigation très réactive lorsque vous surfez sur Internet, même avec une vingtaine d’onglets ouverts. En parlant de rapidité, le 7300 est aussi équipé d’un disque SSD de 240 Go, de quoi démarrer votre PC en un claquement de doigt. Ainsi, ce PC vous garantit fiabilité, réactivité et polyvalence.\r\n\r\nLa qualité d’affichage est elle-aussi de très bonne facture. Les bords très fins de la dalle laissent place à un écran HD et antireflet de 13.3 pouces. Cette haute résolution est tout à fait adaptée pour regarder un film ou travailler sur des logiciels graphiques.\r\n\r\nAvec sa dalle de fine épaisseur et son clavier au format singulier, cet ordinateur portable présente un style sobre et haut de gamme. Il possède de très bonnes finitions en fibre de carbone pour une meilleure durabilité.\r\n\r\nConcernant sa mobilité, le Dell Latitude possède aussi un fort potentiel. Son poids plume de 1,25 kg le rend particulièrement facile à transporter. Avec son épaisseur de 1,7 cm, il reste robuste et donc résistant. Grâce à sa technologie ExpressConnect, vous pouvez vous connecter automatiquement à la Wifi la plus puissante. Sa connexion filaire WWAN est jusqu’à 233% plus rapide que les génération précédentes. Parfait pour aller sur Internet quel que soit l’endroit où vous êtes et suivre une visioconférence dans des conditions idéales. Le lecteur d’empreinte posé sur le bouton d‘allumage pour un maximum de sécurité et la connectique très généreuse viennent renforcer la mobilité du PC. Vous profitez notamment de 2 ports Super-Speed USB 3.0, d’une entrée Thunderbolt 3 et d’un lecteur de carte SD.\r\n', 799.00, 'fkl2n3x', '2019-09-08', 'Intel Core i5-8365U', 8, 256, 'Windows 10 professionnelle', 13.30, NULL, 'laptop', 'Images/laptop/img01.jpg'),
+(1, 5, 'Dell', 'Latitude 7300', 'Dell Latitude 7300', ' La série de PC Dell Latitude 7300 est parfaitement adapté aux professionnels et particuliers. Un ultrabook associant fiabilité, performances et mobilité.\r\n\r\nComposition haut de gamme, à l’extérieur comme à l’intérieur.\r\n\r\nCommençons par l’intérieur. Le Dell Latitude 7300 possède une configuration intelligente et très bien fournie. Son processeur i5 de 8ème génération est associé à 8 Go de RAM pour de très bonnes performances et un excellent confort d’utilisation. Grâce à cela, vous pouvez utiliser des logiciels de la suite Adobe tels que Photoshop ou InDesign. Vous bénéficiez aussi d’une navigation très réactive lorsque vous surfez sur Internet, même avec une vingtaine d’onglets ouverts. En parlant de rapidité, le 7300 est aussi équipé d’un disque SSD de 240 Go, de quoi démarrer votre PC en un claquement de doigt. Ainsi, ce PC vous garantit fiabilité, réactivité et polyvalence.\r\n\r\nLa qualité d’affichage est elle-aussi de très bonne facture. Les bords très fins de la dalle laissent place à un écran HD et antireflet de 13.3 pouces. Cette haute résolution est tout à fait adaptée pour regarder un film ou travailler sur des logiciels graphiques.\r\n\r\nAvec sa dalle de fine épaisseur et son clavier au format singulier, cet ordinateur portable présente un style sobre et haut de gamme. Il possède de très bonnes finitions en fibre de carbone pour une meilleure durabilité.\r\n\r\nConcernant sa mobilité, le Dell Latitude possède aussi un fort potentiel. Son poids plume de 1,25 kg le rend particulièrement facile à transporter. Avec son épaisseur de 1,7 cm, il reste robuste et donc résistant. Grâce à sa technologie ExpressConnect, vous pouvez vous connecter automatiquement à la Wifi la plus puissante. Sa connexion filaire WWAN est jusqu’à 233% plus rapide que les génération précédentes. Parfait pour aller sur Internet quel que soit l’endroit où vous êtes et suivre une visioconférence dans des conditions idéales. Le lecteur d’empreinte posé sur le bouton d‘allumage pour un maximum de sécurité et la connectique très généreuse viennent renforcer la mobilité du PC. Vous profitez notamment de 2 ports Super-Speed USB 3.0, d’une entrée Thunderbolt 3 et d’un lecteur de carte SD.\r\n ', 799.00, 'fkl2n3x', '2019-09-08', 'Intel Core i5-8365U', 8, 256, 'Windows 10 professionnelle', 13.30, NULL, 'laptop', ''),
 (2, 5, 'Hp', 'EliteBook', 'HP Elite dragonfly', 'Le HP Elite Dragonfly est un ordinateur portable dédié aux professionnels. Équipé des toutes dernières technologies, ce PC portable convertible stimulera votre productivité et changera votre manière de travailler instantanément. Cet ordinateur est compact et ultra léger (seulement 990g), il sera l’allié parfait des commerciaux terrains et des chefs d’entreprise en déplacement. Son écran s’inclinera à 360° grâce à sa charnière pour vous permettre plus de flexibilité lors de vos présentations en clientèle.\r\n\r\nSes composants hauts de gamme ont été choisis pour améliorer votre quotidien et vous faire gagner en productivité. Dès le premier démarrage de votre ordinateur, vous allez voir la différence.\r\nCe PC portable a une autonomie exceptionnelle (batterie 4 cellules Lithium Ion 56 Wh), grâce à celui-ci vous allez pouvoir rester connecté toute une journée sans chercher la moindre prise.\r\n \r\nSoyez toujours connecté là où vous allez\r\nLe PC portable HP Dragonfly a été pensé pour vous simplifier la tâche lors de vos déplacements professionnels.\r\nIl intègre 2x ports USB-C 4 (Thunderbolt 4) et 1x port USB 3.1 qui amélioreront la vitesse de transfert de vos données.\r\nN’oublions pas la présence du port HDMI qui favorisera le partage de contenu sur un écran externe ou un vidéoprojecteur.\r\nRestez connecté avec le monde même en déplacement grâce au Wifi 6 disponible dès le lancement de votre appareil.\r\nUne conception qui s’adaptera à vous\r\nLe HP Dragonfly dispose d’un écran 13.3, avec une résolution Full HD vous offrant une excellente qualité d’écran. De plus son écran tactile rend cet ordinateur intuitif. Son écran ultra-lumineux (1000 nits) peut se tourner jusqu’à 360° vous permettant de choisir librement votre manière de travailler.\r\n\r\nCet ordinateur est très polyvalent, il dispose de 4 modes d’utilisations différents :\r\n• le mode ordinateur permet de travailler simplement et confortablement.\r\n• le mode tablette vous permettra de prendre des notes très rapidement. \r\n• le mode tente favorise le partage de contenu.\r\n• le mode multimédia sera utile lors d’une présentation de projet ou pour regarder un film.\r\n  \r\nTravaillez en toute tranquillité\r\nVous pouvez obstruer votre Webcam HD grâce à un cache physique et rester serein face aux piratages.\r\nVotre HP Elite Dragonfly est doté d’une puce TPM 2.0 qui chiffrera les données de votre ordinateur portable.\r\nUn emplacement pour câble de sécurité Kensington est intégré pour protéger votre appareil lorsque vous êtes en déplacement.\r\nProtégez votre PC contre des attaques extérieures avec HP Sure Sense, s’appuyant sur l’apprentissage approfondi et l’intelligence artificielle pour garantir une protection exceptionnelle contre les logiciels malveillants.\r\n', 1800.00, 'klmkj2jio3y', '2022-02-13', 'Intel Core i5-8265U', 8, 256, 'Windows 10 pro', 13.30, NULL, 'laptop', 'Images/laptop/img02.jpg'),
 (3, 1, 'Lenovo', 'Thinkpad', 'Thinkpad X1 Yoga gen 7', 'Des performances conçues pour vous!\r\nÉquipé de processeurs Intel® Core vPro, de 12e génération (jusqu’à 14 cœurs), le portable 2-en-1 ThinkPad X1 Yoga Gen 7 porte le multitâche à un niveau supérieur. Ces processeurs ont une conception révolutionnaire qui assigne intelligemment les charges de travail au bon thread, sur le bon cœur, au bon moment, ce qui permet une meilleure collaboration vidéo et une plus grande productivité, d’après la façon dont vous utilisez réellement votre appareil.\r\n\r\nToujours plus flexible\r\n\r\nGrâce à sa charnière à 360°, le ThinkPad X1 Yoga Gen 7 vous permet de basculer rapidement entre les modes ordinateur portable, tablette, tente et chevalet. Peu importe où le travail vous mène, vous disposez toujours d’un mode adapté à votre style de travail. Passez du clavier au ThinkPad Pen Pro en quelques secondes pour dessiner, signer un document ou prendre des notes grâce au stylet entièrement rechargeable avec rangement.\r\n\r\nDécouvrez la barre de communication\r\n\r\nProfitez d’une expérience haut de gamme grâce à la nouvelle barre de communication du ThinkPad X1 Yoga Gen 7 2-en-1. L’ancienne webcam a été remplacée par trois options de résolution Full HD, dont celles dotées de la technologie infrarouge et de la vision artificielle. Les quatre microphones intégrés avec filtrage du bruit ambiant, basé sur l’IA, et technologie Dolby Voice®, combinés aux quatre haut-parleurs Dolby Atmos® offrent une collaboration sans pareille.\r\n\r\nQuand chaque pixel compte\r\n\r\nQue vous recherchiez des couleurs vives ou une sécurité accrue pour vous protéger des regards indiscrets, le ThinkPad X1 Yoga Gen 7 2-en-1 ne vous décevra pas. Qu’il s’agisse d’un modèle WQUXGA OLED 4K ou d’une dalle WUXGA, tous les écrans de 35,56 cm (14\") présentent un format 16:10, un cadre fin, une technologie multitactile et une faible consommation d’énergie. De plus, les options d’affichage certifiées Eyesafe® réduisent les émissions de lumière bleue et la fatigue oculaire.\r\n\r\nDeux ventilateurs pour deux fois plus de fraîcheur\r\n\r\nLa partie inférieure des touches de notre légendaire clavier ThinkPad a été repensée pour laisser passer l’air et favoriser sa circulation. Associées à deux ventilateurs et à une ventilation arrière, les capacités thermiques du ThinkPad X1 Yoga Gen 7 permettent à ce portable convertible de rester frais, même lorsqu’il fait des heures supplémentaires.\r\n\r\nLa sécurité à votre mesure\r\n\r\nLa technologie biométrique garantit une sécurité supplémentaire sur le portable ThinkPad X1 Yoga Gen 7, du lecteur d’empreintes digitales intégré au bouton de mise sous tension qui vous permet de vous connecter et de démarrer instantanément, au logiciel de reconnaissance faciale qui fonctionne avec la caméra infrarouge. De plus, la détection de présence par vision artificielle verrouille automatiquement votre appareil lorsque vous vous éloignez. La technologie PrivacyGuard en option permet, quant à elle, de préserver la confidentialité de votre écran.\r\n\r\nNe perdez jamais la trace de votre appareil\r\n\r\nSi vous égarez votre portable 2-en-1, ou pire, si quelqu’un vous le dérobe, vous pourrez le localiser en toute simplicité. Désormais compatible avec Tile®, le ThinkPad X1 Yoga Gen 7 fonctionne avec votre smartphone pour localiser votre appareil, même lorsque votre X1 est éteint. Abonnez-vous simplement au service Tile®*, puis téléchargez-le, configurez-le et activez-le.\r\n* Abonnement non inclus, à acheter séparément.\r\n\r\nTesté pour résister à des conditions extrêmes\r\n\r\nNous utilisons les normes MIL-STD 810H du département américain de la Défense afin d’atteindre l’équilibre entre fiabilité et durabilité pour nos portables ThinkPad. Nous les testons selon 12 normes et les soumettons à plus de 200 contrôles qualité pour nous assurer qu’ils fonctionnent dans des conditions extrêmes. Ces tests sont conduits dans des conditions intenses, sur les terres sauvages de l’Arctique et dans les tempêtes de sable du désert, par exemple, pour garantir leur résistance aux températures extrêmes, à la pression, à l’humidité, aux vibrations, etc.\r\n', 1900.90, 'jlnu3jh6z', '2020-04-20', 'intel Core i7-1270P', 16, 256, 'Windows 11 pro', 14.00, NULL, 'laptop', 'Images/laptop/img03.jpg'),
 (4, 0, 'ASUS', 'Vivobook', 'ASUS Vivobook Pro', 'Laissez libre cours à votre créativité\r\n\r\nUn écran d\'exception\r\nLe premier atout de l\'écran de ce VivoBook Pro 16X OLED N7600PC-L2010T réside tout simplement dans son format 16/10 plus haut et plus confortable qu\'un écran traditionnel. Mais ce n\'est pas le seul ! Vous apprécierez ainsi les spécifications techniques de cette dalle OLED 4K (3840 x 2400) : luminosité de 400 nits, prise en charge de 100% du profil DCI-P3, certification Pantone et certification TÜV Rheinland pour une réduction des émissions de lumière bleue. Un véritable condensé de technologie au service de votre regard.\r\n\r\nLéger et élégant\r\n\r\nAfin de pouvoir emmener votre productivité partout où vous le souhaitez, le Vivobook Pro 16X OLED N7600PC-L2010T est réalisé en aluminium pour un poids de moins de 2 kg et moins de 2 cm d\'épaisseur. Il renferme un clavier rétroéclairé disposant de touches de couleurs différentes. Vous apprécierez aussi sa batterie 6 cellules de 96 Whrs qui ne vous laissera pas tomber lors de vos journées de travail les plus chargées !\r\n\r\nIntel Core i7, RAM 16 Go et stockage SSD !\r\nPour satisfaire vos besoins de performance, le Vivobook Pro 16X OLED N7600PC-L2010T est équipé de puissants composants. Animé par un processeur Intel de génération Tiger Lake, avec le Core i7-11370H cadencé à 3,00 GHz en fréquence minimale (jusqu\'à 4,80 GHz en mode turbo) et accompagné par 16 Go de RAM DDR4. Ce couple se révèlera particulièrement adapté pour l\'utilisation de logiciels nécessitant beaucoup de ressources, et pour du multitâche bien évidemment.\r\nCôté stockage, ce Vivobook Pro 16X intègre un SSD M.2 PCIe NVMe 3.0 de 1000 Go qui vous assure une hyper réactivité de votre système d\'exploitation Microsoft Windows 10 et de tous vos logiciels installés dessus ! \r\nEt avec une telle capacité, vous ne risquez pas de tomber à court d\'espace de si tôt !\r\n\r\nNVIDIA RTX 3050 Ampere\r\n\r\nCôté carte graphique, avec l\'architecture Ampere de sa RTX 3050 (4 Go DDR6), NVIDIA ne se contente pas seulement de proposer un gain de performances conséquent par rapport à la génération précédente, mais en a également profité pour grandement améliorer les technologies RTX ainsi que le rendement et le nombre des cœurs RT et Tenseurs, unités de calcul dédiées respectivement au ray tracing (qui permet de simuler le comportement physique de la lumière pour un rendu cinématographique) et à l\'assistance au rendu graphique 3D via le Deep Learning super Sample (DLSS). \r\nLe résultat ? Plus de fluidité et une réduction de l\'impact du ray-tracing sur le nombre de frame.\r\n\r\nDialPad : des fonctions intégrées à votre touchpad !\r\n\r\nLa fonction DialPad, intégrée à votre pavé tactile, vous offre un contrôle précis et intuitif des paramètres dans des applications créatives telle qu\'Adobe Photoshop ou Adobe Premiere Pro : modifiez les pinceaux, basculez entre vos différents claques, parcourez les scènes rapidement...grâce à un simple geste du doigt. Entièrement personnalisable, profitez de ce DialPad pour développer votre productivité et laisser votre créativité s\'exprimer.\r\n\r\nConnecté en toute circonstance !\r\n\r\nLe PC portable Vivobook Pro 16X répond à tous vos besoins. Tout d\'abord, ses 3 ports Type-A et son port USB-C vous permettent de relier à grande vitesse vos clés USB ou vos disques externes. Pour connecter facilement un écran externe, vous disposez d\'une sortie HDMI 1.4.\r\nParce que la réactivité de votre connexion sans-fil doit être fiable dans tous vos déplacements, Asus a équipé son Vivobook Pro 16X avec un contrôleur Wi-Fi 6 AX. Enfin, pour relier sans fil vos périphériques compatibles, il dispose d\'un contrôleur Bluetooth 5.0 double bande.', 1799.95, 'N7600PC-L2010T', '2021-12-12', 'Intel Core i7-11370H', 16, 1000, 'Windows 10 pro', 16.00, NULL, 'laptop', 'Images/laptop/img04.jpeg'),
@@ -158,22 +147,26 @@ INSERT INTO `product` (`id`, `inventory`, `brand`, `model`, `title`, `descriptio
 (34, 5, 'Hyper', 'HyperDrive ', 'Hyper Hub USB-C 5-en-1 HyperDrive pour iMac 24', 'Augmentez les capacités de stockage de votre iMac 24.\r\n\r\nCe Hub USB-C conçu par Hyper, permet d\'augmenter les capacités de stockage de votre iMac 24\". Facile à installer et à fixer il s\'intègre parfaitement grâce aux cadres de couleur assortis conçus pour toutes les options de couleur de l\'iMac. Les 7 plaques frontales assorties aux couleurs iMac incluses, vous permettent d\'assortir le Hub aux couleurs de votre iMac pour que l\'ensemble ne fasse plus qu\'un. Ce hub vous offre un accès facile aux ports. Cinq ports en façade pour un accès facile aux cartes mémoire, au stockage USB ou aux dispositifs de charge. Ce hub est conçu pour s\'adapter en toute sécurité à la partie inférieure de votre iMac. Installation facile grâce à un système de serrage qui ne nécessite aucun outil. \r\n', 49.94, 'HD34A6', '2020-06-26', NULL, NULL, NULL, NULL, NULL, NULL, 'accessory', 'Images/accessory/img14.jpg'),
 (35, 3, 'Akashi ', 'Hub USB-C', 'Akashi Hub USB Type-C 9-en-1', 'Le Akashi Hub USB Type-C 9-en-1 vous permet de profiter rapidement de ports supplémentaires sur votre ordinateur équipé d\'un port USB Type-C. \r\nAvec un design compact, ce hub Akashi trouvera facilement sa place sur votre bureau ou emportez-le avec vous lors de vos déplacements. Alimenté par USB-C, bénéficiez des avantages de cette alimentation avec une gestion efficace de cette dernière et des vitesses de charge optimales pour charger vos appareils. Disposant de trois ports USB 3.0, d\'un port HDMI compatible 4K, d\'un port USB-C, d\'un port RJ45 et d\'un port VGA, il deviendra vite un indispensable.', 79.96, 'ALTHUB9IN1TC', '2021-05-28', NULL, NULL, NULL, NULL, NULL, NULL, 'accessory', 'Images/accessory/img15.jpg'),
 (36, 5, 'Samsung', 't7', 'disque dur externe samsung t7 1TO usb-c', 'Evolution du stockage externe\r\n\r\nLe SSD Samsung T7 contribue à l\'évolution du stockage externe vers la vitesse et la performance grâce à la technologie SSD PCIe NVMe et à la norme USB 3.2 Gen 2. Ces deux technologies combinées permettent d\'atteindre des débits de l\'ordre de 1050 Mo/s en lecture et 1000 Mo/s en écriture soit deux fois plus rapide que le T5 en USB 3.2 Gen 1.\r\nPour assurer cette transition vers la performance de stockage, le T7 est fourni avec deux câbles : 1 USB Type C-vers-C et un USB Type C-vers-A. Il peut être branché aussi bien sur un port USB 2.0 que sur un port USB 3.2 et est compatible PC, Mac et Android. Bien évidement les performances maximum ne seront atteintes que via la connexion USB 3.2 Gen 2.\r\n\r\nSécurisez vous données\r\n\r\nA la performance s\'ajoute la sécurité. Le Samsung T7 est construit en aluminium massif. Cette matière lui permet d\'assurer une résistance de tous les instants jusqu\'à 2 mètres de chute par exemple. L\'aluminium apporte également une grande légèreté au produit, ce qui lui permet de ne pas avoir à supporter son propre poids en cas de forts contraintes physiques.\r\nA la sécurité physique s\'ajoute la sécurité virtuelle de vos données. En effet, le logiciel de gestion fourni vous permet d\'ajouter un mot de passe cryptés matériellement en AES 256 Bits.', 139.95, 'MU-PC1T0T', '2020-03-20', NULL, NULL, NULL, NULL, NULL, NULL, 'accessory', 'Images/accessory/img16.jpg'),
-(37, 5, 'Samsung', 't7', 'disque dur externe samsung t7 2to usb-c', 'Évolution du stockage externe\r\n\r\nLe SSD Samsung T7 contribue à l\'évolution du stockage externe vers la vitesse et la performance grâce à la technologie SSD PCIe NVMe et à la norme USB 3.2 Gen 2. Ces deux technologies combinées permettent d\'atteindre des débits de l\'ordre de 1050 Mo/s en lecture et 1000 Mo/s en écriture soit deux fois plus rapide que le T5 en USB 3.2 Gen 1.\r\nPour assurer cette transition vers la performance de stockage, le T7 est fourni avec deux câbles : 1 USB Type C-vers-C et un USB Type C-vers-A. Il peut être branché aussi bien sur un port USB 2.0 que sur un port USB 3.2 et est compatible PC, Mac et Android. Bien évidement les performances maximum ne seront atteintes que via la connexion USB 3.2 Gen 2.\r\nSécurisez vous données\r\nA la performance s\'ajoute la sécurité. Le Samsung T7 est construit en aluminium massif. Cette matière lui permet d\'assurer une résistance de tous les instants jusqu\'à 2 mètres de chute par exemple. L\'aluminium apporte également une grande légèreté au produit, ce qui lui permet de ne pas avoir à supporter son propre poids en cas de forts contraintes physiques.\r\nA la sécurité physique s\'ajoute la sécurité virtuelle de vos données. En effet, le logiciel de gestion fourni vous permet d\'ajouter un mot de passe cryptés matériellement en AES 256 Bits.', 219.95, 'MU-PC2T0T', '2020-03-20', NULL, NULL, NULL, NULL, NULL, NULL, 'accessory', 'Images/accessory/img17.jpg');
+(37, 5, 'Samsung', 't7', 'disque dur externe samsung t7 2to usb-c', 'Évolution du stockage externe\r\n\r\nLe SSD Samsung T7 contribue à l\'évolution du stockage externe vers la vitesse et la performance grâce à la technologie SSD PCIe NVMe et à la norme USB 3.2 Gen 2. Ces deux technologies combinées permettent d\'atteindre des débits de l\'ordre de 1050 Mo/s en lecture et 1000 Mo/s en écriture soit deux fois plus rapide que le T5 en USB 3.2 Gen 1.\r\nPour assurer cette transition vers la performance de stockage, le T7 est fourni avec deux câbles : 1 USB Type C-vers-C et un USB Type C-vers-A. Il peut être branché aussi bien sur un port USB 2.0 que sur un port USB 3.2 et est compatible PC, Mac et Android. Bien évidement les performances maximum ne seront atteintes que via la connexion USB 3.2 Gen 2.\r\nSécurisez vous données\r\nA la performance s\'ajoute la sécurité. Le Samsung T7 est construit en aluminium massif. Cette matière lui permet d\'assurer une résistance de tous les instants jusqu\'à 2 mètres de chute par exemple. L\'aluminium apporte également une grande légèreté au produit, ce qui lui permet de ne pas avoir à supporter son propre poids en cas de forts contraintes physiques.\r\nA la sécurité physique s\'ajoute la sécurité virtuelle de vos données. En effet, le logiciel de gestion fourni vous permet d\'ajouter un mot de passe cryptés matériellement en AES 256 Bits.', 219.95, 'MU-PC2T0T', '2020-03-20', NULL, NULL, NULL, NULL, NULL, NULL, 'accessory', 'Images/accessory/img17.jpg'),
+(38, 1, 'test', 'test', 'test', 'rien  ', 111.90, 'kop,m e', '2022-04-19', 'intel', 8, 128, 'windows', 11.20, NULL, 'laptop', '');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `product_command`
+-- Table structure for table `product_command`
 --
 
-CREATE TABLE `product_command` (
+DROP TABLE IF EXISTS `product_command`;
+CREATE TABLE IF NOT EXISTS `product_command` (
   `commandId` int(11) DEFAULT NULL,
   `productId` int(11) DEFAULT NULL,
-  `Quantity` int(3) NOT NULL
+  `Quantity` int(3) NOT NULL,
+  KEY `fk_command` (`commandId`),
+  KEY `fk_product` (`productId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `product_command`
+-- Dumping data for table `product_command`
 --
 
 INSERT INTO `product_command` (`commandId`, `productId`, `Quantity`) VALUES
@@ -182,138 +175,68 @@ INSERT INTO `product_command` (`commandId`, `productId`, `Quantity`) VALUES
 (3, 2, 4),
 (4, 23, 1),
 (5, 5, 1),
-(6, 3, 1);
+(6, 3, 1),
+(7, 1, 1),
+(8, 11, 1),
+(9, 7, 1),
+(10, 9, 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user`
+-- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `role` enum('client','employe') DEFAULT NULL,
   `male` tinyint(1) DEFAULT NULL,
   `lastname` varchar(20) NOT NULL,
   `firstname` varchar(30) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `pass` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `pass` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `role`, `male`, `lastname`, `firstname`, `email`, `pass`) VALUES
-(1, 'employe', 1, 'BENK', 'Guillaume', 'b.guillaume@bestcomputer.com', 'B1g8lkjmi9Eg'),
-(2, 'employe', 1, 'MIL', 'Tom', 'm.tom@bestcomputer.com', 'JkEl3,n(productType, kr)sivn'),
-(3, 'employe', 0, 'SING', 'Marine', 's.marine@bestcomputer.com', '3Klm-ioep9Zn'),
-(4, 'employe', 1, 'DUPONT', 'Jacque', 'd.jacque@bestcomputer.com', 'jNF-irçklnv-J'),
-(5, 'employe', 0, 'CHARM', 'Marie', 'c.marie@bestcomputer.com', 'EyU6cWs8En'),
-(6, 'employe', 1, 'MARL', 'Bruno', 'm.bruno@bestcomputer.com', 'IeAn8b6nE0Z'),
-(7, 'employe', 1, 'BEN', 'Sam', 'b.sam@bestcomputer.com', 'FwC53wwYS7i5'),
-(8, 'employe', 0, 'CONST', 'Lucie', 'c.lucie@bestcomputer.com', 'H5iht9WD38zC'),
-(9, 'employe', 1, 'BROWN', 'James', 'b.james@bestcomputer.com', '8qARcdE9c3U7'),
-(10, 'employe', 1, 'HARN', 'Carim', 'h.carim@bestcomputer.com', '7YZTrmT4b32i'),
-(11, 'employe', 1, 'CORK', 'Borice', 'c.borice@bestcomputer.com', '4jH7gpbUR4Y2'),
-(12, 'client', 1, 'CLIMENT', 'Pauline', 'pauline.montels@gmail.com', 'Bonjour16!');
+(1, 'employe', 1, 'Benk', 'Guillaume', 'b.guillaume@bestcomputer.com', '1c35d24bada60ad5b845592cb10ef3280e59d41938066ae015987501c27ded7a'),
+(2, 'employe', 1, 'MIL', 'Tom', 'm.tom@bestcomputer.com', '315d87d8444775b4f90f9386426adc4b5bb84dde3d48543cc84837e721aba57d'),
+(3, 'employe', 0, 'SING', 'Marine', 's.marine@bestcomputer.com', 'e1405c237d79f56fa0c25895ca35c1870c159431db26da9867c35a61699381c4'),
+(4, 'employe', 1, 'DUPONT', 'Jacque', 'd.jacque@bestcomputer.com', 'e7389eec35764db2f535087f2fcc14164beb961a8869193f380abdf51fa8b40f'),
+(5, 'employe', 0, 'CHARM', 'Marie', 'c.marie@bestcomputer.com', '7d6cbb03334470f1d799e409b2384b9a00b35aac5ea0c8e95ca5a216ec1687c7'),
+(6, 'employe', 1, 'MARL', 'Bruno', 'm.bruno@bestcomputer.com', '5608c6a69589e2c987daa6bfce0db2f42980bb27395b5dd2fe4078f0aa1cb35e'),
+(7, 'employe', 1, 'BEN', 'Sam', 'b.sam@bestcomputer.com', 'bfe5db39bf6bc40135b8653fd5ee1c3d962e61adad978ac6979394802cb0e706'),
+(8, 'employe', 0, 'CONST', 'Lucie', 'c.lucie@bestcomputer.com', 'd8935edef68d54749621dbdfe2010039ef2121c77fe768727ca781c2f7268989'),
+(9, 'employe', 1, 'BROWN', 'James', 'b.james@bestcomputer.com', 'e72bb57e91778315b25f38c0fc9ae3a92b214622bb8164c4cd786d0b88f5af74'),
+(10, 'employe', 1, 'HARN', 'Carim', 'h.carim@bestcomputer.com', '0d4def5d9a508af8ee8cecbe985935db9f88ff21d920a3bad8032a3bfa30840a'),
+(11, 'employe', 1, 'CORK', 'Borice', 'c.borice@bestcomputer.com', 'a2787cb42d660731445dc16739cd425eb928cb08c2f932bd7492d4aba5746351'),
+(12, 'employe', 1, 'Zimmer', 'thomas', 't.zimmer@bestcomputer.com', '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578'),
+(13, 'client', 1, 'pierre', 'paul', 'ppaul@gmail.com', '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578');
 
 --
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `address`
---
-ALTER TABLE `address`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `userId` (`userId`);
-
---
--- Index pour la table `command`
---
-ALTER TABLE `command`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `userId` (`userId`);
-
---
--- Index pour la table `contact`
---
-ALTER TABLE `contact`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `product`
---
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `product_command`
---
-ALTER TABLE `product_command`
-  ADD KEY `fk_command` (`commandId`),
-  ADD KEY `fk_product` (`productId`);
-
---
--- Index pour la table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `address`
---
-ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT pour la table `command`
---
-ALTER TABLE `command`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT pour la table `contact`
---
-ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `product`
---
-ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
-
---
--- AUTO_INCREMENT pour la table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `address`
+-- Constraints for table `address`
 --
 ALTER TABLE `address`
   ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`);
 
 --
--- Contraintes pour la table `command`
+-- Constraints for table `command`
 --
 ALTER TABLE `command`
   ADD CONSTRAINT `command_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`);
 
 --
--- Contraintes pour la table `product_command`
+-- Constraints for table `product_command`
 --
 ALTER TABLE `product_command`
   ADD CONSTRAINT `fk_command` FOREIGN KEY (`commandId`) REFERENCES `command` (`id`),

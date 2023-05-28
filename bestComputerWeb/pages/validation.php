@@ -15,7 +15,7 @@ if (isset($case)) {
       break;
     case "contact":
       $title = "Message Envoyé";
-      $message = "Votre message a bien été envoyé, nous vous invitons à poursuivre votre navigation sur le site";
+      $message = "Votre message a bien été envoyé, nos équipes vous répondrons dans les meilleurs délais";
       $linkHref = "index.php";
       $link = "Page Accueil";
       break;
@@ -24,11 +24,6 @@ if (isset($case)) {
       $message = "Votre commande a bien été validée, nous vous invitons à découvrir d'autres produits de notre catalogue";
       $linkHref = "search.php";
       $link = "Nos Produits";
-      break;
-    case "address":
-      $title = "Ajout ou modification de votre adresse effectuée! ";
-      $linkHref = "customer-dashboard.php";
-      $link = "Revenir sur votre tableau de bord";
       break;
     default:
       header("Location: index.php");

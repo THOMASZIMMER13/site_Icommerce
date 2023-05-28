@@ -12,17 +12,28 @@ if (isset($_SESSION['id'])) {
 }
 
 if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST['lastname'], $_REQUEST['firstname'])) {
-  // récupérer le nom
-  $lastname = stripslashes($_REQUEST['lastname']);
-  $lastname = mysqli_real_escape_string($conn, $lastname);
+  /**
+   * Récupération des données
+   * LASTNAME
+   * FIRSTNAME
+   * EMAIL
+   * PASSWORD
+   * CONFIRMATION PASSWORD
+   * GENRE
+   */
+  $lastname = mysqli_real_escape_string($conn, stripslashes($_REQUEST['lastname']));
+  $firstname = mysqli_real_escape_string($conn, stripslashes($_REQUEST['firstname']));
+  $email = mysqli_real_escape_string($conn, stripslashes($_REQUEST['email']));
+  $pass = mysqli_real_escape_string($conn, stripslashes($_REQUEST['pass']));
+  $repass = mysqli_real_escape_string($conn, stripslashes($_REQUEST['repass']));
+  $male = ($_REQUEST['genra'] == 'male') ? 1 : 0;
 
-  // récupérer le prénom
-  $firstname = stripslashes($_REQUEST['firstname']);
-  $firstname = mysqli_real_escape_string($conn, $firstname);
+  /**
+   * HASH PASSWORD & CONFIRMATION PASSWORD
+   */
+  $pass = hash('sha256', $pass);
+  $repass = hash('sha256', $repass);
 
-  // récupérer le mail
-  $email = stripslashes($_REQUEST['email']);
-  $email = mysqli_real_escape_string($conn, $email);
   // Vérification du mail
   if (!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $email)) {
     $valid = false;
@@ -35,33 +46,19 @@ if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST[
     $valid = false;
     $erreur = $erreur . "<p>" . $email . " est déjà utilisée</p>";
   }
-
-
-  // récupérer le mot de passe et supprimer les antislashes ajoutés par le formulaire
-  $pass = stripslashes($_REQUEST['pass']);
-  $pass = mysqli_real_escape_string($conn, $pass);
-
-  // récupérer la confirmation du mot de passe et supprimer les antislashes ajoutés par le formulaire
-  $repass = stripslashes($_REQUEST['repass']);
-  $repass = mysqli_real_escape_string($conn, $repass);
+  
   //vérifier que le mot de passe et la confirmation son identique
   if ($pass != $repass) {
     $valid = false;
     $erreur = $erreur . "<p>Les mots de passe saisis ne correspondent pas</p>";
   }
 
-
-  // récupérer le genre
-  if ($_REQUEST['genra'] == 'male') {
-    $male = true;
-  } else {
-    $male = false;
-  }
-
   if ($valid) {
     //requéte SQL + mot de passe crypté
-    /*$query = "INSERT into 'user' (firstname, lastname, email, role, male, pass) VALUES ('$firstname', '$lastname', '$email', 'client', '$male','".hash('sha256', $pass)."')";*/
-    $query = "INSERT into user (firstname, lastname, email, role, male, pass)              VALUES ('$firstname', '$lastname', '$email', 'client', true, '$pass');";
+    $query = "INSERT into user (firstname, lastname, email, role, male, pass)              
+              VALUES ('$firstname', '$lastname', '$email', 'client', '$male', '$pass');";
+    var_dump($query);
+    
     // Exécute la requête sur la base de données
     try {
       $res = mysqli_query($conn, $query);
@@ -69,12 +66,12 @@ if (isset($_REQUEST['email'], $_REQUEST['pass'], $_REQUEST['repass'], $_REQUEST[
         header('Location: validation.php?case=register');
       }
     } catch (Exception $err) {
-      $erreur = "Une erreur s'est produite vueillez revenir plus tard sur cette page";
+      var_dump($err);
+      $erreur = "Une erreur s'est produite veuillez revenir plus tard sur cette page";
     }
   }
 }
 ?>
-
 <div class="container">
   <div class="row">
     <div class="col-2"></div>

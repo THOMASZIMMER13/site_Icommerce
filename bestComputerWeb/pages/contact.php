@@ -2,8 +2,6 @@
 $title = "Nous contacter ";
 include_once("head.php");
 
-//connexion à la base de donnée 
-// require('..\bd\config.php');
 $erreur = '';
 
 // Traitement du formulaire

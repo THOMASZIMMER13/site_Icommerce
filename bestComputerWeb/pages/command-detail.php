@@ -1,8 +1,7 @@
 <?php
 $title = 'Modifier ma commande';
 include_once("head.php");
-// session_start();
-// require('../bd/config.php');
+
 $basket = array();
 $erreur = '';
 $valid = true;

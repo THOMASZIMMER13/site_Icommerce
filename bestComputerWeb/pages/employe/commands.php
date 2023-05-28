@@ -2,7 +2,7 @@
 $title = "Listing des Commandes.";
 include_once("../head.php");
 include_once("validateAuth.php");
-// require('../../bd/config.php');
+
 
 function showStatus($status)
 {

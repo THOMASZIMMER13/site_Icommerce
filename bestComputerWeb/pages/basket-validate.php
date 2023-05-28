@@ -22,8 +22,6 @@ if (isset($_REQUEST['terminate'])) {
       header('Location: validation.php?case=command');
       exit();
     } catch (Exception $err) {
-
-      //$erreur = $err;
       $erreur = 'erreur lors de la tentative de commande';
     }
   }
