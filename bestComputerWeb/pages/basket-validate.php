@@ -16,8 +16,21 @@ if (isset($_REQUEST['terminate'])) {
   $command = mysqli_fetch_assoc($res);
   for ($row = 0; $row < count($_SESSION['basket']); $row++) {
     try {
-      $query = "INSERT INTO product_command (commandId, productId, quantity) VALUES (" . $command['id'] . ", " . $_SESSION['basket'][$row][0] . ", " . $_SESSION['basket'][$row][3] . ")";
+      $query = "INSERT INTO product_command (commandId, productId, quantity) 
+                VALUES (" . $command['id'] . ", " . $_SESSION['basket'][$row][0] . ", " . $_SESSION['basket'][$row][3] . ")";
       $res = mysqli_query($conn, $query);
+
+      $query_previous_stock = "SELECT inventory FROM product WHERE id=".$_SESSION['basket'][$row][0];
+      $res2 = mysqli_query($conn, $query_previous_stock);
+      $previous_inventory = mysqli_fetch_assoc($res2);
+      $new_inventory = $previous_inventory['inventory'] - $_SESSION['basket'][$row][3];
+
+      $query_updateStock = "UPDATE product
+                            SET inventory=".$new_inventory." 
+                            WHERE id=".$_SESSION['basket'][$row][0];
+                            var_dump($query_updateStock);
+      $res3 = mysqli_query($conn, $query_updateStock);
+
       $_SESSION['basket'] = null;
       header('Location: validation.php?case=command');
       exit();

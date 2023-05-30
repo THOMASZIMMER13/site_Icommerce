@@ -3,29 +3,28 @@ $title = "";
 include_once("../head.php");
 include_once("validateAuth.php");
 
+  /* 
+  * Déclaration / initialisation de mes variables 
+  */
+  $result = '';
+  $erreur = 0;
+  $id = 0;
+  $inventory = 0;
+  $model = "";
+  $brand = "";
+  $title = "";
+  $description = "";
+  $price = 0;
+  $serialnumber = "";
+  $releaseDate = "";
+  $processor = "";
+  $ram = "";
+  $storage = "";
+  $os = "";
+  $computFormat = "";
+  $img = "";
 
-/* 
- * Déclaration / initialisation de mes variables 
-*/
-$result = '';
-$erreur = 0;
-$id = 0;
-$inventory = 0;
-$model = "";
-$brand = "";
-$title = "";
-$description = "";
-$price = 0;
-$serialnumber = "";
-$releaseDate = "";
-$processor = "";
-$ram = "";
-$storage = "";
-$os = "";
-$computFormat = "";
-$img = "";
-
-if (isset($_REQUEST['inventory'], $_REQUEST['model'], $_REQUEST['brand'], $_REQUEST['title'], $_REQUEST['description'], $_REQUEST['price'], $_REQUEST['serialnumber'], $_REQUEST['releaseDate'], $_REQUEST['processor'], $_REQUEST['ram'], $_REQUEST['storage'], $_REQUEST['os'], $_REQUEST['computFormat'], $_REQUEST['img'])) {
+  if (isset($_REQUEST['inventory'], $_REQUEST['model'], $_REQUEST['brand'], $_REQUEST['title'], $_REQUEST['description'], $_REQUEST['price'], $_REQUEST['serialnumber'], $_REQUEST['releaseDate'], $_REQUEST['processor'], $_REQUEST['ram'], $_REQUEST['storage'], $_REQUEST['os'], $_REQUEST['computFormat'], $_REQUEST['img'])) {
   /* 
     * Récupération des données
     * ID
@@ -44,78 +43,78 @@ if (isset($_REQUEST['inventory'], $_REQUEST['model'], $_REQUEST['brand'], $_REQU
     * COMPUT FORMAT
     * IMAGE
     */
-  $id = mysqli_real_escape_string($conn, $stripslashes($_REQUEST['id']));
-  $inventory = mysqli_real_escape_string($conn, stripslashes($_REQUEST['inventory']));
-  $model = mysqli_real_escape_string($conn, stripslashes($_REQUEST['model']));
-  $brand = mysqli_real_escape_string($conn, stripslashes($_REQUEST['brand']));
-  $title = mysqli_real_escape_string($conn, stripslashes($_REQUEST['title']));
-  $description = mysqli_real_escape_string($conn, stripslashes($_REQUEST['description']));
-  $price = mysqli_real_escape_string($conn, stripslashes($_REQUEST['price']));
-  $serialnumber = mysqli_real_escape_string($conn, stripslashes($_REQUEST['serialnumber']));
-  $releaseDate = mysqli_real_escape_string($conn, stripslashes($_REQUEST['releaseDate']));
-  $processor = mysqli_real_escape_string($conn, stripslashes($_REQUEST['processor']));
-  $ram = mysqli_real_escape_string($conn, stripslashes($_REQUEST['ram']));
-  $storage = mysqli_real_escape_string($conn, stripslashes($_REQUEST['storage']));
-  $os = mysqli_real_escape_string($conn, stripslashes($_REQUEST['os']));
-  $computFormat = mysqli_real_escape_string($conn, stripslashes($_REQUEST['computFormat']));
-  $img = mysqli_real_escape_string($conn, stripslashes($_REQUEST['img']));
+    $id = mysqli_real_escape_string($conn, stripslashes($_REQUEST['id']));
+    $inventory = mysqli_real_escape_string($conn, stripslashes($_REQUEST['inventory']));
+    $model = mysqli_real_escape_string($conn, stripslashes($_REQUEST['model']));
+    $brand = mysqli_real_escape_string($conn, stripslashes($_REQUEST['brand']));
+    $title = mysqli_real_escape_string($conn, stripslashes($_REQUEST['title']));
+    $description = mysqli_real_escape_string($conn, stripslashes($_REQUEST['description']));
+    $price = mysqli_real_escape_string($conn, stripslashes($_REQUEST['price']));
+    $serialnumber = mysqli_real_escape_string($conn, stripslashes($_REQUEST['serialnumber']));
+    $releaseDate = mysqli_real_escape_string($conn, stripslashes($_REQUEST['releaseDate']));
+    $processor = mysqli_real_escape_string($conn, stripslashes($_REQUEST['processor']));
+    $ram = mysqli_real_escape_string($conn, stripslashes($_REQUEST['ram']));
+    $storage = mysqli_real_escape_string($conn, stripslashes($_REQUEST['storage']));
+    $os = mysqli_real_escape_string($conn, stripslashes($_REQUEST['os']));
+    $computFormat = mysqli_real_escape_string($conn, stripslashes($_REQUEST['computFormat']));
+    $img = mysqli_real_escape_string($conn, stripslashes($_REQUEST['img']));
 
   //requéte SQL
-  if ($id > 0) {
-    $query = "UPDATE product 
-              SET inventory=" . $inventory . ", 
-                  model='" . $model . "', 
-                  brand='" . $brand . "', 
-                  title='" . $title . "', 
-                  description='" . $description . "', 
-                  price=" . $price . ", 
-                  serialnumber='" . $serialnumber . "', 
-                  releaseDate='" . $releaseDate . "', 
-                  processor='" . $processor . "', 
-                  ram=" . $ram . ", 
-                  storage=" . $storage . ", 
-                  os='" . $os . "', 
-                  computFormat='" . $computFormat . "', 
-                  img='" . $img . "' 
-               WHERE id = " . $id;
-  } else {
-    $query = "INSERT into `product` (productType, inventory, model, brand, title, description, price, serialnumber, releaseDate, processor, ram, storage, os, computFormat, img) VALUES 
-('desktop', $inventory, '$model', '$brand', '$title', '$description', $price, '$serialnumber', '$releaseDate', '$processor', $ram, $storage, '$os', '$computFormat', '$img');";
-  }
+    if ($id > 0) {
+      $query = "UPDATE product 
+                SET inventory=" . $inventory . ", 
+                    model='" . $model . "', 
+                    brand='" . $brand . "', 
+                    title='" . $title . "', 
+                    description='" . $description . "', 
+                    price=" . $price . ", 
+                    serialnumber='" . $serialnumber . "', 
+                    releaseDate='" . $releaseDate . "', 
+                    processor='" . $processor . "', 
+                    ram=" . $ram . ", 
+                    storage=" . $storage . ", 
+                    os='" . $os . "', 
+                    computFormat='" . $computFormat . "', 
+                    img='" . $img . "' 
+                WHERE id = " . $id;
+    } else {
+      $query = "INSERT into `product` (productType, inventory, model, brand, title, description, price, serialnumber, releaseDate, processor, ram, storage, os, computFormat, img) VALUES 
+  ('desktop', $inventory, '$model', '$brand', '$title', '$description', $price, '$serialnumber', '$releaseDate', '$processor', $ram, $storage, '$os', '$computFormat', '$img');";
+    }
 
   // Exécute la requête sur la base de données
-  try {
-    $res = mysqli_query($conn, $query);
-    $result = $res;
-    if ($res) {
-      $result = 'Ajout du produit réussi! ';
-      header("Location: lstProduct.php");
+    try {
+      $res = mysqli_query($conn, $query);
+      $result = $res;
+      if ($res) {
+        $result = 'Ajout du produit réussi! ';
+        header("Location: lstProduct.php");
+      }
+    } catch (Exception $err) {
+      $erreur = $err;
     }
-  } catch (Exception $err) {
-    $erreur = $err;
+  } else if (isset($_REQUEST["id"])) {
+    $query = "SELECT id, inventory, brand, model, title, description, price, serialnumber, releaseDate, processor, ram, storage, os, computFormat, productType, img  FROM product WHERE id = " . $_REQUEST["id"];
+    $res = mysqli_query($conn, $query);
+    $data = mysqli_fetch_assoc($res);
+    if ($data) {
+      $id = $data["id"];
+      $inventory = $data["inventory"];
+      $model = $data["model"];
+      $brand = $data["brand"];
+      $title = $data["title"];
+      $description = $data["description"];
+      $price = $data["price"];
+      $serialnumber = $data["serialnumber"];
+      $releaseDate = $data["releaseDate"];
+      $processor = $data["processor"];
+      $ram = $data["ram"];
+      $storage = $data["storage"];
+      $os = $data["os"];
+      $computFormat = $data["computFormat"];
+      $img = $data["img"];
+    }
   }
-} else if (isset($_REQUEST["id"])) {
-  $query = "SELECT id, inventory, brand, model, title, description, price, serialnumber, releaseDate, processor, ram, storage, os, computFormat, productType, img  FROM product WHERE id = " . $_REQUEST["id"];
-  $res = mysqli_query($conn, $query);
-  $data = mysqli_fetch_assoc($res);
-  if ($data) {
-    $id = $data["id"];
-    $inventory = $data["inventory"];
-    $model = $data["model"];
-    $brand = $data["brand"];
-    $title = $data["title"];
-    $description = $data["description"];
-    $price = $data["price"];
-    $serialnumber = $data["serialnumber"];
-    $releaseDate = $data["releaseDate"];
-    $processor = $data["processor"];
-    $ram = $data["ram"];
-    $storage = $data["storage"];
-    $os = $data["os"];
-    $computFormat = $data["computFormat"];
-    $img = $data["img"];
-  }
-}
 ?>
 
 <div id="container">
@@ -123,7 +122,7 @@ if (isset($_REQUEST['inventory'], $_REQUEST['model'], $_REQUEST['brand'], $_REQU
     <div class="col-2"></div>
     <div class="col-8" style="padding-bottom: 3em">
       <div class="p-4 p-md-4 mb-2">
-      <?php if ($id == 0) { ?>
+        <?php if ($id == 0) { ?>
           <h1><i class="bi bi-pc"></i>Ajout d'un nouvel ordinateur fixe</h1>
         <?php } else { ?>
           <h1><i class="bi bi-pc"></i>Modification d'un ordinateur fixe</h1>
@@ -193,31 +192,31 @@ if (isset($_REQUEST['inventory'], $_REQUEST['model'], $_REQUEST['brand'], $_REQU
         <div class="mb-4 row">
           <label for="processor" class="col-sm-4 col-form-label">Processeur *:</label>
           <div class="col-sm-8">
-          <input class="form-control" type="text" placeholder="Entrer le nom complet du processeur" id="processor" name="processor" required="true" aria-required="true" value="<?php echo $processor; ?>">
+            <input class="form-control" type="text" placeholder="Entrer le nom complet du processeur" id="processor" name="processor" required="true" aria-required="true" value="<?php echo $processor; ?>">
           </div>
         </div>
         <div class="mb-4 row">
           <label for="ram" class="col-sm-4 col-form-label">RAM *:</label>
           <div class="col-sm-8">
-          <input class="form-control" type="number" id="ram" name="ram" min=0 required="true" aria-required="true" value="<?php echo $ram; ?>">
+            <input class="form-control" type="number" id="ram" name="ram" min=0 required="true" aria-required="true" value="<?php echo $ram; ?>">
           </div>
         </div>
         <div class="mb-4 row">
           <label for="storage" class="col-sm-4 col-form-label">Stockage *:</label>
           <div class="col-sm-8">
-          <input class="form-control" type="number" id="storage" name="storage" min=128 required="true" aria-required="true" value="<?php echo $storage; ?>">
+            <input class="form-control" type="number" id="storage" name="storage" min=128 required="true" aria-required="true" value="<?php echo $storage; ?>">
           </div>
         </div>
         <div class="mb-4 row">
           <label for="os" class="col-sm-4 col-form-label">Systhème d'exploitation *:</label>
           <div class="col-sm-8">
-          <input class="form-control" type="text" placeholder="Systhème d'exploitation" id="os" name="os" required="true" aria-required="true" value="<?php echo $os; ?>">
+            <input class="form-control" type="text" placeholder="Systhème d'exploitation" id="os" name="os" required="true" aria-required="true" value="<?php echo $os; ?>">
           </div>
         </div>
         <div class="mb-4 row">
           <label for="computFormat" class="col-sm-4 col-form-label">Format du boitier (SFF, MFF, UFF...) *:</label>
           <div class="col-sm-8">
-          <input class="form-control" type="text" placeholder="format" id="computFormat" name="computFormat" required="true" aria-required="true" value="<?php echo $computFormat; ?>">
+            <input class="form-control" type="text" placeholder="format" id="computFormat" name="computFormat" required="true" aria-required="true" value="<?php echo $computFormat; ?>">
           </div>
         </div>
         <div class="mb-4 row">
