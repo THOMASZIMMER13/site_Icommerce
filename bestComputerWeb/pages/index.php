@@ -10,6 +10,26 @@ if (isset($_SESSION["role"])) {
     $dashboard = $BASE_URL . "employee-dashboard.php";
   }
 }
+
+//récupérer tout les produit commander les 30 dernier jour
+$query = "SELECT p.id, p.title, p.productType, p.price, SUM(pc.Quantity) as total_quantity, p.img
+FROM product p
+JOIN product_command pc ON p.id = pc.productId
+JOIN command c ON pc.commandId = c.id
+WHERE c.date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+  AND c.status = 'validated'
+GROUP BY p.id, p.title
+ORDER BY total_quantity DESC
+LIMIT 1;";
+
+// Exécute la requête sur la base de données
+$res = mysqli_query($conn, $query);
+
+// Vérifie si la requête a échoué
+if ($res === false) {
+  die("Erreur lors de l'exécution de la requête");
+}
+
 ?>
 
 <div style="background-color:#4bb8d3; color:#ffffff;">
@@ -63,6 +83,35 @@ if (isset($_SESSION["role"])) {
     </div>
   </div>
 </div>
+
+  <div style="padding-bottom:3em">
+    <h1><i class="bi bi-box2-fill" style="font-size: 3rem;"></i>Produit le plus populaire  ce mois ci </h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Catégories</th>
+          <th>Modèle</th>
+          <th>Prix</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php while ($row = mysqli_fetch_assoc($res)) : ?>
+          <tr>
+            <td><?php echo htmlspecialchars($row['productType']); ?></td>
+            <td><?php echo htmlspecialchars($row['title']); ?></td>
+            <td><?php echo htmlspecialchars($row['price'] . "€" ); ?></td>
+            <td>
+            <a class="btn btn-sm btn-outline-dark" role="button" href="product-detail.php?id=<?php echo $row["id"]; ?>" class="card-link"> Détail </a>
+            <a class="btn btn-sm btn-primary" role="button" href="basket.php?id=<?php echo $row["id"]; ?>"> Ajouter au panier</a>
+            </td>
+          </tr>
+        <?php endwhile; ?>
+      </tbody>
+    </table>
+  </div>
+
+
 <div style="background-color:#4bb8d3;">
   <div class="container p-4 p-md-5 mb-4">
     <h2 style="color:#ffffff;"> Acheter chez nous, c'est synonyme de...</h2>
